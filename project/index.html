@@ -57,24 +57,6 @@
     }
   </script>
   <script>
-    document.querySelectorAll(".nav-item").forEach(item => {
-      item.addEventListener("click", function (e) {
-        e.preventDefault(); // 💥 Prevent default anchor jump or reload
-
-        // Remove active class from all nav items
-        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-
-        // Add active class to the clicked one
-        this.classList.add("active");
-
-        // Update selected topic
-        selectedTopic = this.dataset.topic;
-      });
-    });
-    window.history.replaceState(null, "", `#${selectedTopic}`);
-  </script>
-
-  <script>
     function getCurrentUsername() {
         return localStorage.getItem("currentUser") || "guest";
     }
@@ -120,10 +102,46 @@
   }
   </script>
   <script>
+    // ✅ Declare globally
+    let selectedTopic = "html"; // default
+
+    // ✅ Toggle mobile menu
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+
+    // ✅ Run when DOM is ready
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize selectedTopic from active item
+      const activeTab = document.querySelector(".nav-item.active");
+      if (activeTab) {
+        selectedTopic = activeTab.dataset.topic;
+      }
+
+      // Set up navbar click events
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Remove active from all
+          document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+
+          // Set active and selected topic
+          this.classList.add("active");
+          selectedTopic = this.dataset.topic;
+
+          // Optional: update URL fragment
+          window.history.replaceState(null, "", `#${selectedTopic}`);
+        });
+      });
+    });
+
+    // ✅ Called on button click
     function startGame() {
-      window.location.href = "level1.html";
+      const levelPage = `${selectedTopic}level-1.html`;
+      console.log("Redirecting to:", levelPage); // Dev message
+      window.location.href = levelPage;
     }
   </script>
-
 </body>
 </html>
