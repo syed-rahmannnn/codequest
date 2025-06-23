@@ -22,10 +22,10 @@
       <span class="logo">CodeQuest</span>
       <button class="hamburger" onclick="toggleMenu()">☰</button>
       <ul class="nav-links" id="navLinks">
-        <li><a class="active" href="#html">HTML</a></li>
-        <li><a href="#css">CSS</a></li>
-        <li><a href="#js">JAVASCRIPT</a></li>
-        <li><a href="#python">PYTHON</a></li>
+        <li><a class="nav-item active" href="#html" data-topic="html">HTML</a></li>
+        <li><a class="nav-item" href="#css" data-topic="css">CSS</a></li>
+        <li><a class="nav-item" href="#js" data-topic="js">javascript</a></li>
+        <li><a class="nav-item" href="#python" data-topic="python">python</a></li>
       </ul>
     </div>
   </nav>
@@ -55,6 +55,23 @@
     function toggleMenu() {
       document.getElementById("navLinks").classList.toggle("open");
     }
+  </script>
+  <script>
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault(); // 💥 Prevent default anchor jump or reload
+
+        // Remove active class from all nav items
+        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+
+        // Add active class to the clicked one
+        this.classList.add("active");
+
+        // Update selected topic
+        selectedTopic = this.dataset.topic;
+      });
+    });
+    window.history.replaceState(null, "", `#${selectedTopic}`);
   </script>
 
   <script>

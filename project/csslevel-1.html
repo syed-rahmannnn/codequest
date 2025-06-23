@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeQuest: Level 1</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="game-container">
+    <h1>🧠 CodeQuest: Level 1</h1>
+    <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
+    <p class="instruction">Fill in the missing part of this JavaScript loop:</p>
+    <div class="code-block">
+      <p><b>Q.Print Numbers from 0 to 10.</b></p>
+      <pre>for (let i = 0; i &lt; <input id="answer" maxlength="2" />; i++) {
+  console.log(i);
+}</pre>
+    </div>
+    <button onclick="checkAnswer()">Submit</button>
+    <p id="feedback"></p>
+  </div>
+  <script>
+    function getCurrentUsername() {
+        return localStorage.getItem("currentUser") || "guest";
+    }
+
+    function getScoresObject() {
+        return JSON.parse(localStorage.getItem("userScores") || "{}");
+    }
+
+    function getUserScore(username) {
+        const scores = getScoresObject();
+        return scores[username] || 0;
+    }
+
+    function updateScoreDisplay() {
+        const username = getCurrentUsername();
+        document.getElementById("userName").textContent = username;
+        document.getElementById("scoreValue").textContent = getUserScore(username);
+    }
+
+    // Call this on page load
+    updateScoreDisplay();
+  </script>
+  <!-- 🔊 Add Sound Effects Here -->
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
