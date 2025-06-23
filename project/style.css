@@ -7,6 +7,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 70px;
 }
 
 .game-container {
@@ -87,6 +88,86 @@ button:hover {
   from, to { border-color: transparent }
   50% { border-color: orange }
 }
+/* NAVBAR STYLING */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #121212;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 1.5em;
+  color: #00ffcc;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.hamburger {
+  font-size: 1.8em;
+  background: none;
+  border: none;
+  color: white;
+  display: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-family: monospace;
+  transition: background 0.3s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background-color: #00c37e;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 10px 0;
+  }
+}
+
+
 .code-pieces, .drop-zone {
   display: flex;
   gap: 10px;
