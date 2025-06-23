@@ -115,3 +115,8 @@ function updateScoreDisplay() {
   const scoreDisplay = document.getElementById("scoreValue");
   scoreDisplay.textContent = getUserScore(username);
 }
+function updateUserScore(username, newScore) {
+  const scores = getScoresObject();
+  scores[username] = newScore;
+  localStorage.setItem("userScores", JSON.stringify(scores));
+}

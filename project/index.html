@@ -23,7 +23,24 @@
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
     <h1 class="typewriter">Welcome to CodeQuest</h1>
     <button onclick="startGame()">Start Adventure</button>
+    <button onclick="showDashboard()">View Dashboard</button>
   </div>
+  <div id="dashboard" style="display:none; margin-top: 20px;">
+    <h2>🏅 Score Dashboard</h2>
+    <table border="1" style="width: 100%; text-align: left;">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="dashboardBody">
+        <!-- Filled dynamically -->
+      </tbody>
+    </table>
+    <button onclick="hideDashboard()">Hide Dashboard</button>
+  </div>
+
   <script>
     function getCurrentUsername() {
         return localStorage.getItem("currentUser") || "guest";
@@ -46,6 +63,28 @@
 
     // Call this on page load
     updateScoreDisplay();
+    function showDashboard() {
+      const dashboard = document.getElementById("dashboard");
+      const dashboardBody = document.getElementById("dashboardBody");
+      const scores = getScoresObject();
+
+      // Clear old rows
+      dashboardBody.innerHTML = "";
+
+      const sortedEntries = Object.entries(scores).sort((a, b) => b[1] - a[1]); // sort by score descending
+
+      for (const [user, score] of sortedEntries) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${user}</td><td>${score}</td>`;
+        dashboardBody.appendChild(row);
+      }
+
+      dashboard.style.display = "block";
+    }
+
+  function hideDashboard() {
+    document.getElementById("dashboard").style.display = "none";
+  }
   </script>
   <script>
     function startGame() {
