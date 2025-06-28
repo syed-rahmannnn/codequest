@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CodeQuest: Level 1</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    input {
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      padding: 3px 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #238636;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2ea043;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 
 <body>
@@ -12,42 +43,82 @@
   <div class="game-container">
     <h1>🧠 CodeQuest: Level 1</h1>
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-    <p class="instruction">Fill in the missing part of this JavaScript loop:</p>
-    <div class="code-block">
-      <p><b>Q.Print Numbers from 0 to 10.</b></p>
-      <pre>for (let i = 0; i &lt; <input id="answer" maxlength="2" />; i++) {
-  console.log(i);
-}</pre>
+     <p><b>Q. Apply a red text color to a paragraph using CSS.</b></p>
+
+  <div class="code-container">
+    <div>p {</div>
+    <div class="code-line">
+      &nbsp;&nbsp;
+      <input id="cssProp" placeholder="property" /> :
+      <input id="cssValue" placeholder="value" /> ;
     </div>
-    <button onclick="checkAnswer()">Submit</button>
-    <p id="feedback"></p>
+    <div>}</div>
   </div>
+
+  <button onclick="checkCSS()">Check Answer</button>
+  <p id="result"></p>
+
   <script>
-    function getCurrentUsername() {
-        return localStorage.getItem("currentUser") || "guest";
-    }
+    function checkCSS() {
+      const prop = document.getElementById("cssProp").value.trim().toLowerCase();
+      const value = document.getElementById("cssValue").value.trim().toLowerCase();
+      const result = document.getElementById("result");
 
-    function getScoresObject() {
-        return JSON.parse(localStorage.getItem("userScores") || "{}");
+      if (prop === "color" && value === "red") {
+        result.textContent = "✅ Correct! The text will appear in red.";
+        result.style.color = "green";
+        correctSound.play();
+        const username = getCurrentUsername();
+        updateUserScore(username, 10);
+        updateScoreDisplay();
+      } else {
+        result.textContent = "❌ Incorrect. Hint: Use the property that sets text color.";
+        result.style.color = "red";
+        wrongSound.play();
+      }
     }
-
-    function getUserScore(username) {
-        const scores = getScoresObject();
-        return scores[username] || 0;
-    }
-
-    function updateScoreDisplay() {
+        function updateScoreDisplay() {
         const username = getCurrentUsername();
         document.getElementById("userName").textContent = username;
         document.getElementById("scoreValue").textContent = getUserScore(username);
     }
+    function getCurrentUsername() {
+      return localStorage.getItem("currentUser") || "guest";
+    }
 
+    function getScoresObject() {
+      return JSON.parse(localStorage.getItem("userScores") || "{}");
+    }
+
+    function getUserScore(username) {
+      const scores = getScoresObject();
+      return scores[username] || 0;
+    }
+
+    function updateUserScore(username, pointsToAdd) {
+      const scores = getScoresObject();
+      scores[username] = (scores[username] || 0) + pointsToAdd;
+      localStorage.setItem("userScores", JSON.stringify(scores));
+    }
+
+    function updateScoreDisplay() {
+      const username = getCurrentUsername();
+      const scoreDisplay = document.getElementById("scoreValue");
+      scoreDisplay.textContent = getUserScore(username);
+    }
+    function updateUserScore(username, newScore) {
+      const scores = getScoresObject();
+      scores[username] = newScore;
+      localStorage.setItem("userScores", JSON.stringify(scores));
+    }
     // Call this on page load
     updateScoreDisplay();
+  </script>
+  
   </script>
   <!-- 🔊 Add Sound Effects Here -->
   <audio id="correctSound" src="correct.mp3"></audio>
   <audio id="wrongSound" src="wrong.mp3"></audio>
-  <script src="script.js"></script>
+  <!-- <script src="script.js"></script> -->
 </body>
 </html>

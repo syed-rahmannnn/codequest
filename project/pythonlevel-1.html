@@ -5,6 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CodeQuest: Level 1</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .code-line {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    input {
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      padding: 3px 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 80px;
+      min-width: 60px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 
 <body>
@@ -12,16 +51,41 @@
   <div class="game-container">
     <h1>🧠 CodeQuest: Level 1</h1>
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-    <p class="instruction">Fill in the missing part of this JavaScript loop:</p>
-    <div class="code-block">
-      <p><b>Q.Print Numbers from 0 to 10.</b></p>
-      <pre>for (let i = 0; i &lt; <input id="answer" maxlength="2" />; i++) {
-  console.log(i);
-}</pre>
+  <p><b>Q. Create a list of squares from 0 to 9 using list comprehension.</b></p>
+
+  <div class="code-container">
+    <div class="code-line">
+      squares = [ <input id="expr" placeholder="expression" /> for <input id="var" placeholder="var" /> in <input id="range" placeholder="range()" /> ]
     </div>
-    <button onclick="checkAnswer()">Submit</button>
-    <p id="feedback"></p>
   </div>
+
+  <button onclick="checkPython()">Check Answer</button>
+  <p id="result"></p>
+
+  <script>
+    function checkPython() {
+      const expr = document.getElementById("expr").value.trim().toLowerCase();
+      const variable = document.getElementById("var").value.trim().toLowerCase();
+      const rangeVal = document.getElementById("range").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+
+      const validExprs = [`${variable}**2`, `${variable}*${variable}`];
+      const validRanges = [`range(10)`, `range(0,10)`];
+
+      if (validExprs.includes(expr) && variable === "x" && validRanges.includes(rangeVal)) {
+        result.textContent = "✅ Correct! You used list comprehension properly.";
+        result.style.color = "green";
+        correctSound.play();
+        const username = getCurrentUsername();
+        updateUserScore(username, 10);
+        updateScoreDisplay();
+      } else {
+        result.textContent = "❌ Incorrect. Hint: Use 'x**2' and 'range(10)'.";
+        result.style.color = "red";
+        wrongSound.play();
+      }
+    }
+  </script>
   <script>
     function getCurrentUsername() {
         return localStorage.getItem("currentUser") || "guest";
@@ -41,13 +105,41 @@
         document.getElementById("userName").textContent = username;
         document.getElementById("scoreValue").textContent = getUserScore(username);
     }
+    function getCurrentUsername() {
+      return localStorage.getItem("currentUser") || "guest";
+    }
 
+    function getScoresObject() {
+      return JSON.parse(localStorage.getItem("userScores") || "{}");
+    }
+
+    function getUserScore(username) {
+      const scores = getScoresObject();
+      return scores[username] || 0;
+    }
+
+    function updateUserScore(username, pointsToAdd) {
+      const scores = getScoresObject();
+      scores[username] = (scores[username] || 0) + pointsToAdd;
+      localStorage.setItem("userScores", JSON.stringify(scores));
+    }
+
+    function updateScoreDisplay() {
+      const username = getCurrentUsername();
+      const scoreDisplay = document.getElementById("scoreValue");
+      scoreDisplay.textContent = getUserScore(username);
+    }
+    function updateUserScore(username, newScore) {
+      const scores = getScoresObject();
+      scores[username] = newScore;
+      localStorage.setItem("userScores", JSON.stringify(scores));
+    }
     // Call this on page load
     updateScoreDisplay();
   </script>
   <!-- 🔊 Add Sound Effects Here -->
   <audio id="correctSound" src="correct.mp3"></audio>
   <audio id="wrongSound" src="wrong.mp3"></audio>
-  <script src="script.js"></script>
+  <!-- <script src="script.js"></script> -->
 </body>
 </html>
