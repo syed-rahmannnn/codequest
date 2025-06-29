@@ -96,9 +96,9 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const topic = localStorage.getItem("lastPlayedTopic") || "html";
-      updateScoreDisplay(topic); // ✅ Always reflect latest updated topic
+      updateScoreDisplay(topic); // ✅ show latest topic's score
 
-      // Set active tab based on topic
+      // Highlight correct nav item
       document.querySelectorAll(".nav-item").forEach(item => {
         if (item.dataset.topic === topic) {
           item.classList.add("active");
@@ -107,22 +107,24 @@
         }
       });
 
-      // Update selected topic
-      selectedTopic = topic;
+      // Store selected topic for Start button
+      window.selectedTopic = topic;
 
-      // Handle tab switching
+      // Handle nav tab clicks
       document.querySelectorAll(".nav-item").forEach(item => {
         item.addEventListener("click", function (e) {
           e.preventDefault();
           document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
           this.classList.add("active");
-          selectedTopic = this.dataset.topic;
-          window.history.replaceState(null, "", `#${selectedTopic}`);
-          updateScoreDisplay(selectedTopic); // 🔁 update score on tab change
+          const newTopic = this.dataset.topic;
+          window.selectedTopic = newTopic;
+          localStorage.setItem("lastPlayedTopic", newTopic);
+          updateScoreDisplay(newTopic); // 🔁 Update score immediately
         });
       });
     });
 </script>
+
 
 
 </body>
