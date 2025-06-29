@@ -36,6 +36,7 @@
         correctSound.play();
         const username = getCurrentUsername();
         updateUserScore(username, topic, 10);
+        localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
       } else {
         result.textContent = "❌ Incorrect. Hint: Use a proper heading tag like h1.";
