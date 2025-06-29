@@ -51,18 +51,18 @@
   <div class="game-container">
     <h1>🧠 CodeQuest: Level 1</h1>
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-  <p><b>Q. Create a list of squares from 0 to 9 using list comprehension.</b></p>
-
-  <div class="code-container">
+    <p><b>Q. Create a list of squares from 0 to 9 using list comprehension.</b></p>
     <div class="code-line">
       squares = [ <input id="expr" placeholder="expression" /> for <input id="var" placeholder="var" /> in <input id="range" placeholder="range()" /> ]
     </div>
+    <button onclick="checkPython()">Check Answer</button>
+    <p id="result"></p>
+    <audio id="correctSound" src="correct.mp3"></audio>
+    <audio id="wrongSound" src="wrong.mp3"></audio>
   </div>
-
-  <button onclick="checkPython()">Check Answer</button>
-  <p id="result"></p>
-
+  <script src="script.js"></script>
   <script>
+    const topic = "python";
     function checkPython() {
       const expr = document.getElementById("expr").value.trim().toLowerCase();
       const variable = document.getElementById("var").value.trim().toLowerCase();
@@ -77,69 +77,19 @@
         result.style.color = "green";
         correctSound.play();
         const username = getCurrentUsername();
-        updateUserScore(username, 10);
-        updateScoreDisplay();
+        updateUserScore(username, topic, 10);
+        localStorage.setItem("lastPlayedTopic", topic);
+        updateScoreDisplay(topic);
       } else {
         result.textContent = "❌ Incorrect. Hint: Use 'x**2' and 'range(10)'.";
         result.style.color = "red";
         wrongSound.play();
       }
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateScoreDisplay(topic);
+    });
   </script>
-  <script>
-    function getCurrentUsername() {
-        return localStorage.getItem("currentUser") || "guest";
-    }
-
-    function getScoresObject() {
-        return JSON.parse(localStorage.getItem("userScores") || "{}");
-    }
-
-    function getUserScore(username) {
-        const scores = getScoresObject();
-        return scores[username] || 0;
-    }
-
-    function updateScoreDisplay() {
-        const username = getCurrentUsername();
-        document.getElementById("userName").textContent = username;
-        document.getElementById("scoreValue").textContent = getUserScore(username);
-    }
-    function getCurrentUsername() {
-      return localStorage.getItem("currentUser") || "guest";
-    }
-
-    function getScoresObject() {
-      return JSON.parse(localStorage.getItem("userScores") || "{}");
-    }
-
-    function getUserScore(username) {
-      const scores = getScoresObject();
-      return scores[username] || 0;
-    }
-
-    function updateUserScore(username, pointsToAdd) {
-      const scores = getScoresObject();
-      scores[username] = (scores[username] || 0) + pointsToAdd;
-      localStorage.setItem("userScores", JSON.stringify(scores));
-    }
-
-    function updateScoreDisplay() {
-      const username = getCurrentUsername();
-      const scoreDisplay = document.getElementById("scoreValue");
-      scoreDisplay.textContent = getUserScore(username);
-    }
-    function updateUserScore(username, newScore) {
-      const scores = getScoresObject();
-      scores[username] = newScore;
-      localStorage.setItem("userScores", JSON.stringify(scores));
-    }
-    // Call this on page load
-    updateScoreDisplay();
-  </script>
-  <!-- 🔊 Add Sound Effects Here -->
-  <audio id="correctSound" src="correct.mp3"></audio>
-  <audio id="wrongSound" src="wrong.mp3"></audio>
-  <!-- <script src="script.js"></script> -->
 </body>
 </html>
