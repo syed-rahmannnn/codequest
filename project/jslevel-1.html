@@ -15,43 +15,38 @@
     <p class="instruction">Fill in the missing part of this JavaScript loop:</p>
     <div class="code-block">
       <p><b>Q.Print Numbers from 0 to 10.</b></p>
-      <pre>for (let i = 0; i &lt; <input id="answer" maxlength="2" />; i++) {
-  console.log(i);
-}</pre>
-    </div>
-    <button onclick="checkAnswer()">Submit</button>
-    <p id="feedback"></p>
+      <pre>for (let i = 0; i <= <input id="answer" maxlength="2" />; i++) {
+        console.log(i);
+      }</pre>
+    <button onclick="checkJsAnswer()">Submit</button>
+    <p id="result"></p>
+    <audio id="correctSound" src="correct.mp3"></audio>
+    <audio id="wrongSound" src="wrong.mp3"></audio>
   </div>
-  <script>
-    function getCurrentUsername() {
-        return localStorage.getItem("currentUser") || "guest";
-    }
-
-    function getScoresObject() {
-        return JSON.parse(localStorage.getItem("userScores") || "{}");
-    }
-
-    function getUserScore(username) {
-        const scores = getScoresObject();
-        return scores[username] || 0;
-    }
-
-    function updateScoreDisplay() {
-        const username = getCurrentUsername();
-        document.getElementById("userName").textContent = username;
-        document.getElementById("scoreValue").textContent = getUserScore(username);
-    }
-
-    // Call this on page load
-    updateScoreDisplay();
-  </script>
-  <!-- 🔊 Add Sound Effects Here -->
-  <audio id="correctSound" src="correct.mp3"></audio>
-  <audio id="wrongSound" src="wrong.mp3"></audio>
   <script src="script.js"></script>
   <script>
+    const topic = "js";
+    function checkJsAnswer() {
+      const answer = document.getElementById("answer").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+
+      if (answer === "10" || answer === "10") {
+        result.textContent = "✅ Correct! Great job!";
+        result.style.color = "green";
+        correctSound.play();
+        const username = getCurrentUsername();
+        updateUserScore(username, topic, 10);
+        localStorage.setItem("lastPlayedTopic", topic);
+        updateScoreDisplay(topic);
+      } else {
+        result.textContent = "❌ Incorrect. Hint: Use i <= 10 as the condition.";
+        result.style.color = "red";
+        wrongSound.play();
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-      updateScoreDisplay(); // This ensures username and score update after DOM loads
+      updateScoreDisplay(topic);
     });
   </script>
 </body>
