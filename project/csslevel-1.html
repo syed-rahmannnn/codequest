@@ -57,8 +57,13 @@
 
   <button onclick="checkCSS()">Check Answer</button>
   <p id="result"></p>
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+
+  <script src="script.js"></script>
 
   <script>
+    const topic = "css";
     function checkCSS() {
       const prop = document.getElementById("cssProp").value.trim().toLowerCase();
       const value = document.getElementById("cssValue").value.trim().toLowerCase();
@@ -69,56 +74,18 @@
         result.style.color = "green";
         correctSound.play();
         const username = getCurrentUsername();
-        updateUserScore(username, 10);
-        updateScoreDisplay();
+        updateUserScore(username, topic, 10);
+        updateScoreDisplay(topic);
       } else {
         result.textContent = "❌ Incorrect. Hint: Use the property that sets text color.";
         result.style.color = "red";
         wrongSound.play();
       }
     }
-        function updateScoreDisplay() {
-        const username = getCurrentUsername();
-        document.getElementById("userName").textContent = username;
-        document.getElementById("scoreValue").textContent = getUserScore(username);
-    }
-    function getCurrentUsername() {
-      return localStorage.getItem("currentUser") || "guest";
-    }
 
-    function getScoresObject() {
-      return JSON.parse(localStorage.getItem("userScores") || "{}");
-    }
-
-    function getUserScore(username) {
-      const scores = getScoresObject();
-      return scores[username] || 0;
-    }
-
-    function updateUserScore(username, pointsToAdd) {
-      const scores = getScoresObject();
-      scores[username] = (scores[username] || 0) + pointsToAdd;
-      localStorage.setItem("userScores", JSON.stringify(scores));
-    }
-
-    function updateScoreDisplay() {
-      const username = getCurrentUsername();
-      const scoreDisplay = document.getElementById("scoreValue");
-      scoreDisplay.textContent = getUserScore(username);
-    }
-    function updateUserScore(username, newScore) {
-      const scores = getScoresObject();
-      scores[username] = newScore;
-      localStorage.setItem("userScores", JSON.stringify(scores));
-    }
-    // Call this on page load
-    updateScoreDisplay();
+    document.addEventListener("DOMContentLoaded", () => {
+      updateScoreDisplay(topic);
+    });
   </script>
-  
-  </script>
-  <!-- 🔊 Add Sound Effects Here -->
-  <audio id="correctSound" src="correct.mp3"></audio>
-  <audio id="wrongSound" src="wrong.mp3"></audio>
-  <!-- <script src="script.js"></script> -->
 </body>
 </html>

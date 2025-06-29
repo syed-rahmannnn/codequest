@@ -131,9 +131,10 @@ button:hover {
   text-decoration: none;
   color: white;
   padding: 8px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   font-family: monospace;
   transition: background 0.3s;
+  font-size: 16px;
 }
 
 .nav-links li a:hover,
