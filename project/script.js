@@ -101,7 +101,7 @@ function sendScoreToAdminServer() {
   const username = getCurrentUsername();
   const scores = getScoresObject()[username];
   
-  fetch("https://script.google.com/macros/s/AKfycbzZ5EBZe3W_oP2_oVSRGvFZPNmN21WdVGU8SmFckD0w-G-72y97J8vJOij6LBccPW10JQ/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbyyqY5HalHVConwHqb6bEaio0CN-6EPPkQUSF3biFF6oD4rV5QmiSVCfL9rrtL6VpjdeA/exec", {
     method: "POST",
     body: JSON.stringify({
       name: username,
