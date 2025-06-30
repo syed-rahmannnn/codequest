@@ -65,37 +65,33 @@ function toggleMenu() {
   document.getElementById("navLinks").classList.toggle("open");
 }
 
-function showDashboard() {
-  const dashboard = document.getElementById("dashboard");
-  const dashboardBody = document.getElementById("dashboardBody");
-  const scores = getScoresObject();
+async function fetchLeaderboard() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhZeY_KV_35kPvDU_DOSRA_QAtygoQTCkV6GnhJJiEnCuDnbWLmeck4ZzuJJMTDgdxL352d1JgVAFr/pub?output=csv";
+  try {
+    const res = await fetch(url);
+    const csv = await res.text();
+    const rows = csv.split("\n").slice(1); // skip header
+    const tableBody = document.getElementById("leaderboardBody");
+    tableBody.innerHTML = "";
 
-  dashboardBody.innerHTML = "";
-
-  for (const [user, topics] of Object.entries(scores)) {
-    const html = topics.html || 0;
-    const css = topics.css || 0;
-    const js = topics.js || 0;
-    const python = topics.python || 0;
-
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${user}</td>
-      <td>${html}</td>
-      <td>${css}</td>
-      <td>${js}</td>
-      <td>${python}</td>
-    `;
-    dashboardBody.appendChild(row);
+    rows.forEach(row => {
+      const [name, html, css, js, python] = row.split(",");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${name}</td>
+        <td>${html || 0}</td>
+        <td>${css || 0}</td>
+        <td>${js || 0}</td>
+        <td>${python || 0}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error("⚠️ Error loading leaderboard:", err);
+    document.getElementById("leaderboardBody").innerHTML = `<tr><td colspan="5">Failed to load leaderboard.</td></tr>`;
   }
-
-  dashboard.style.display = "block";
 }
 
-
-function hideDashboard() {
-  document.getElementById("dashboard").style.display = "none";
-}
 
 function sendScoreToAdminServer() {
   const username = getCurrentUsername();

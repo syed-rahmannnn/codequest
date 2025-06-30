@@ -38,26 +38,24 @@
     <h1 class="typewriter">Welcome to CodeQuest</h1>
     <button onclick="startGame()">Start Adventure</button>
     <button onclick="switchUser()">🔄 Switch User</button>
-    <button onclick="showDashboard()">View Dashboard</button>
   </div>
-  <div id="dashboard" style="display:none; margin-top: 20px;">
-    <h2>🏅 Score Dashboard</h2>
+  <div id="leaderboard" style="margin-top: 30px;">
+    <h2>🌍 Global Leaderboard</h2>
     <table border="1" style="width: 100%; text-align: left;">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>HTML</th>
-        <th>CSS</th>
-        <th>JavaScript</th>
-        <th>Python</th>
-      </tr>
-    </thead>
-
-      <tbody id="dashboardBody">
-        <!-- Filled dynamically -->
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>HTML</th>
+          <th>CSS</th>
+          <th>JS</th>
+          <th>Python</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <tr><td colspan="5">Loading...</td></tr>
       </tbody>
     </table>
-    <button onclick="hideDashboard()">Hide Dashboard</button>
+    <button onclick="fetchLeaderboard()">🔄 Refresh Leaderboard</button>
   </div>
 
   <script src="script.js"></script>
@@ -123,6 +121,12 @@
         });
       });
     });
-</script>
+  </script>
+  <script>
+    // ✅ Load leaderboard on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchLeaderboard(); // This is the function in script.js
+    });
+  </script>
 </body>
 </html>
