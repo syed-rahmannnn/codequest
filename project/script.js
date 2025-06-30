@@ -102,10 +102,16 @@ function submitFinalScores() {
   if (confirm("Submit your final scores to the admin?")) {
     sendScoreToAdminServer();
     alert("Scores submitted!");
-    document.getElementById("leaderboard").style.display = "block"; // Show leaderboard
-    fetchLeaderboard(); // Optional: refresh it after showing
+
+    // Show the leaderboard
+    const leaderboard = document.getElementById("leaderboard");
+    leaderboard.style.display = "block";
+
+    // Load latest leaderboard data
+    fetchLeaderboard();
   }
 }
+
 
 function sendScoreToAdminServer() {
   const username = getCurrentUsername();
