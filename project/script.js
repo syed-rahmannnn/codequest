@@ -31,6 +31,26 @@ function updateScoreDisplay(topic = "html") {
   }
 }
 
+function showCorrectHTMLAnswer() {
+  document.getElementById("answer").value = "h1";
+  document.getElementById("answerClose").value = "h1";
+}
+
+function showCorrectJsAnswer() {
+  document.getElementById("answer").value = "10";
+}
+
+function showCorrectCSSAnswer() {
+  document.getElementById("cssProp").value = "color";
+  document.getElementById("cssValue").value = "red";
+}
+
+function showCorrectPyAnswer() {
+  document.getElementById("expr").value = "x**2";
+  document.getElementById("var").value = "x";
+  document.getElementById("range").value = "range(10)"
+}
+
 function startGame() {
   const active = document.querySelector(".nav-item.active");
   const topic = active ? active.dataset.topic : "html";

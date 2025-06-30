@@ -39,7 +39,9 @@
 </head>
 
 <body>
-
+  <a href="index.html" class="back-arrow" title="Go to Home">
+    <span>⟵</span>
+  </a>
   <div class="game-container">
     <h1>🧠 CodeQuest: Level 1</h1>
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
@@ -56,6 +58,9 @@
   </div>
 
   <button onclick="checkCSS()">Check Answer</button>
+    <button id="showAnswerBtn" onclick="showCorrectCSSAnswer()" style="display: none; margin-top: 10px;">
+      Show Answer
+    </button>
   <p id="result"></p>
   <audio id="correctSound" src="correct.mp3"></audio>
   <audio id="wrongSound" src="wrong.mp3"></audio>
@@ -68,6 +73,7 @@
       const prop = document.getElementById("cssProp").value.trim().toLowerCase();
       const value = document.getElementById("cssValue").value.trim().toLowerCase();
       const result = document.getElementById("result");
+      const showAnswerBtn = document.getElementById("showAnswerBtn");
 
       if (prop === "color" && value === "red") {
         result.textContent = "✅ Correct! The text will appear in red.";
@@ -77,10 +83,12 @@
         updateUserScore(username, topic, 10);
         localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
+        showAnswerBtn.style.display = "none";
       } else {
         result.textContent = "❌ Incorrect. Hint: Use the property that sets text color.";
         result.style.color = "red";
         wrongSound.play();
+        showAnswerBtn.style.display = "inline-block";
       }
     }
 
