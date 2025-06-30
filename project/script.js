@@ -75,7 +75,13 @@ async function fetchLeaderboard() {
     tableBody.innerHTML = "";
 
     rows.forEach(row => {
-      const [name, html, css, js, python] = row.split(",");
+      const columns = row.split(",");
+      const name = columns[1];
+      const html = columns[2];
+      const css = columns[3];
+      const js = columns[4];
+      const python = columns[5];
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${name}</td>
@@ -89,6 +95,13 @@ async function fetchLeaderboard() {
   } catch (err) {
     console.error("⚠️ Error loading leaderboard:", err);
     document.getElementById("leaderboardBody").innerHTML = `<tr><td colspan="5">Failed to load leaderboard.</td></tr>`;
+  }
+}
+
+function submitFinalScores() {
+  if (confirm("Submit your final scores to the admin?")) {
+    sendScoreToAdminServer(); // ✅ Only call this once
+    alert("Scores submitted!");
   }
 }
 
