@@ -99,16 +99,26 @@ function hideDashboard() {
 
 function sendScoreToAdminServer() {
   const username = getCurrentUsername();
-  const scores = getScoresObject()[username];
-  
-  fetch("https://script.google.com/macros/s/AKfycbyyqY5HalHVConwHqb6bEaio0CN-6EPPkQUSF3biFF6oD4rV5QmiSVCfL9rrtL6VpjdeA/exec", {
+  const allScores = getScoresObject();
+  const scores = allScores[username] || {};
+
+  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe3WD2zhCq6HdDJhVrBFWRYXYnxXX3RA_9zyHZg_nFKG_ayDQ/formResponse";
+
+  const formData = new FormData();
+  formData.append("entry.218425263", username);           // Name field
+  formData.append("entry.216952711", scores.html || 0);   // HTML Score
+  formData.append("entry.143075905", scores.css || 0);    // CSS Score
+  formData.append("entry.1181459127", scores.js || 0);     // JS Score
+  formData.append("entry.490537559", scores.python || 0); // Python Score
+
+  fetch(formUrl, {
     method: "POST",
-    body: JSON.stringify({
-      name: username,
-      scores: scores
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(res => console.log("Data sent to admin"));
+    mode: "no-cors", // ✅ This is key for CORS-free POST
+    body: formData
+  }).then(() => {
+    console.log("✅ Score sent to admin form");
+  }).catch((err) => {
+    console.error("❌ Error sending score:", err);
+  });
 }
+
