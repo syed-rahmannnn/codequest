@@ -40,7 +40,7 @@
     <button id="switchUser" onclick="switchUser()">🔄 Switch User</button>
     <button id="submitFinalScores" onclick="submitFinalScores()">Submit Scores</button>
   </div>
-  <div id="leaderboard" style="margin-top: 30px;">
+  <div id="leaderboard" style="margin-top: 30px; display: none;">
     <h2>🌍 Global Leaderboard</h2>
     <table border="1" style="width: 100%; text-align: left;">
       <thead>
@@ -121,12 +121,6 @@
           updateScoreDisplay(newTopic); // 🔁 Update score immediately
         });
       });
-    });
-  </script>
-  <script>
-    // ✅ Load leaderboard on page load
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchLeaderboard(); // This is the function in script.js
     });
   </script>
 </body>

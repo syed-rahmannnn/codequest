@@ -100,11 +100,12 @@ async function fetchLeaderboard() {
 
 function submitFinalScores() {
   if (confirm("Submit your final scores to the admin?")) {
-    sendScoreToAdminServer(); // ✅ Only call this once
+    sendScoreToAdminServer();
     alert("Scores submitted!");
+    document.getElementById("leaderboard").style.display = "block"; // Show leaderboard
+    fetchLeaderboard(); // Optional: refresh it after showing
   }
 }
-
 
 function sendScoreToAdminServer() {
   const username = getCurrentUsername();
