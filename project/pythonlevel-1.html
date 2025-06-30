@@ -84,6 +84,7 @@
         correctSound.play();
         const username = getCurrentUsername();
         updateUserScore(username, topic, 10);
+        sendScoreToAdminServer();
         localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
         showAnswerBtn.style.display = "none";

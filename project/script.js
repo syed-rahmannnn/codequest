@@ -96,3 +96,19 @@ function showDashboard() {
 function hideDashboard() {
   document.getElementById("dashboard").style.display = "none";
 }
+
+function sendScoreToAdminServer() {
+  const username = getCurrentUsername();
+  const scores = getScoresObject()[username];
+  
+  fetch("https://script.google.com/macros/s/AKfycbyyqY5HalHVConwHqb6bEaio0CN-6EPPkQUSF3biFF6oD4rV5QmiSVCfL9rrtL6VpjdeA/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      name: username,
+      scores: scores
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => console.log("Data sent to admin"));
+}
