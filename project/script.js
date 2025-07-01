@@ -106,9 +106,19 @@ async function fetchLeaderboard() {
         <td>${player.python}</td>
         <td><b>${player.total}</b></td>
       `;
-      if (index === 0) tr.style.backgroundColor = "#ffd700"; // Gold
-      if (index === 1) tr.style.backgroundColor = "#c0c0c0"; // Silver
-      if (index === 2) tr.style.backgroundColor = "#cd7f32"; // Bronze
+      if (index === 0) {
+        tr.style.backgroundColor = "#ffd700"; // Gold
+        tr.style.color = "#000";
+        tr.style.fontWeight = "bold";
+      } else if (index === 1) {
+        tr.style.backgroundColor = "#c0c0c0"; // Silver
+        tr.style.color = "#000";
+        tr.style.fontWeight = "bold";
+      } else if (index === 2) {
+        tr.style.backgroundColor = "#cd7f32"; // Bronze
+        tr.style.color = "#000";
+        tr.style.fontWeight = "bold";
+      }
       tableBody.appendChild(tr);
     });
 
