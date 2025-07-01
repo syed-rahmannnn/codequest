@@ -181,4 +181,3 @@ function sendScoreToAdminServer() {
     console.error("❌ Error sending score:", err);
   });
 }
-

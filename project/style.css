@@ -81,22 +81,21 @@ input {
 }
 
 button {
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #28a745, #34d058);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-  transition: all 0.3s ease;
+  padding: 12px 28px;
+  font-size: 17px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  color: #f8fafc;
+  box-shadow: 0 4px 20px rgba(0, 255, 150, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
+  background: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
-  background: linear-gradient(135deg, #218838, #2ebd59);
-  box-shadow: 0 6px 18px rgba(40, 167, 69, 0.6);
+  box-shadow: 0 6px 25px rgba(0, 255, 180, 0.6);
 }
 
 #feedback {
@@ -106,10 +105,31 @@ button:hover {
 }
 .start-screen {
   text-align: center;
-  padding: 50px;
-  color: #fff;
+  padding: 80px 20px;
+  color: #f8fafc;
   animation: fadeIn 2s ease;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 180, 0.2);
+  margin-top: 100px;
 }
+
+.start-screen h1 {
+  font-size: 2.8rem;
+  background: linear-gradient(90deg, #4ade80, #38bdf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+
+
+.start-screen .score {
+  font-size: 1.2rem;
+  color: #93c5fd;
+  margin-bottom: 20px;
+}
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.9); }
@@ -122,7 +142,7 @@ button:hover {
   white-space: nowrap;
   margin: 0 auto;
   letter-spacing: .1em;
-  animation: typing 4s steps(20, end) infinite, blink-caret 0.75s step-end infinite;
+  animation: typing 4s steps(20, end) 1 forwards, blink-caret 0.75s step-end 5s infinite;
   width: 0;
 }
 
@@ -325,4 +345,37 @@ button:hover {
 .glow-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+}
+
+@keyframes slideUpFade {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+button, #leaderboard {
+  animation: slideUpFade 1.2s ease forwards;
+}
+
+.floating-bg {
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 150, 0.1), transparent 50%),
+              radial-gradient(circle at 70% 70%, rgba(0, 170, 255, 0.08), transparent 50%);
+  z-index: -1;
+  animation: float 30s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-5%, -5%); }
+  100% { transform: translate(0, 0); }
 }
