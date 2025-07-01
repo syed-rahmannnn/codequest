@@ -65,6 +65,11 @@ function toggleMenu() {
   document.getElementById("navLinks").classList.toggle("open");
 }
 
+function hideLeaderboard() {
+  document.getElementById("leaderboard").style.display = "none";
+}
+
+
 async function fetchLeaderboard() {
   const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhZeY_KV_35kPvDU_DOSRA_QAtygoQTCkV6GnhJJiEnCuDnbWLmeck4ZzuJJMTDgdxL352d1JgVAFr/pub?output=csv";
 
@@ -106,6 +111,12 @@ async function fetchLeaderboard() {
         <td>${player.python}</td>
         <td><b>${player.total}</b></td>
       `;
+
+      // Clear any default styling from CSS
+      tr.style.backgroundColor = "";
+      tr.style.color = "";
+      tr.style.fontWeight = "";
+
       if (index === 0) {
         tr.style.backgroundColor = "#ffd700"; // Gold
         tr.style.color = "#000";
@@ -119,8 +130,10 @@ async function fetchLeaderboard() {
         tr.style.color = "#000";
         tr.style.fontWeight = "bold";
       }
+
       tableBody.appendChild(tr);
     });
+
 
   } catch (err) {
     console.error("⚠️ Error loading leaderboard:", err);

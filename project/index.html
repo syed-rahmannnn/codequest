@@ -40,7 +40,7 @@
     <button id="switchUser" onclick="switchUser()">🔄 Switch User</button>
     <button id="submitFinalScores" onclick="submitFinalScores()">Submit Scores</button>
   </div>
-  <div id="leaderboard">
+  <div id="leaderboard" style="display: none;">
     <h2>🌍 Leaderboard</h2>
     <table>
       <thead>
@@ -59,7 +59,9 @@
       </tbody>
     </table>
     <button onclick="fetchLeaderboard()" class="glow-btn">🔄 Refresh Leaderboard</button>
+    <button onclick="hideLeaderboard()" class="glow-btn" style="margin-left: 10px;">🙈 Hide Leaderboard</button>
   </div>
+
 
   <script src="script.js"></script>
   <script>
