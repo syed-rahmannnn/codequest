@@ -16,7 +16,7 @@
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
     <p><b>Q. Create a heading "Internet Programming" using a heading tag.</b></p>
     <pre>
-&lt;<input id="answer" maxlength="3" style="width: 30px;" />&gt;Internet Programming&lt;/<input id="answerClose" maxlength="3" style="width: 30px;" />&gt;
+      &lt;<input id="answer" maxlength="2" style="width: 30px;" />&gt;Internet Programming&lt;/<input id="answerClose" maxlength="2" style="width: 30px;" />&gt;
     </pre>
     <button onclick="checkHtmlAnswer()">Check Answer</button>
     <button id="showAnswerBtn" onclick="showCorrectHTMLAnswer()" style="display: none; margin-top: 10px;">
@@ -29,30 +29,29 @@
   <script src="script.js"></script>
   <script>
     const topic = "html";
-  function checkHtmlAnswer() {
-    const openTag = document.getElementById("answer").value.trim().toLowerCase();
-    const closeTag = document.getElementById("answerClose").value.trim().toLowerCase();
-    const result = document.getElementById("result");
-    const showAnswerBtn = document.getElementById("showAnswerBtn");
+    function checkHtmlAnswer() {
+      const openTag = document.getElementById("answer").value.trim().toLowerCase();
+      const closeTag = document.getElementById("answerClose").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+      const showAnswerBtn = document.getElementById("showAnswerBtn");
 
-    if (openTag === "h1" && closeTag === "h1") {
-      result.textContent = "✅ Correct! Great job!";
-      result.style.color = "green";
-      correctSound.play();
-      const username = getCurrentUsername();
-      updateUserScore(username, topic, 10);
-      // sendScoreToAdminServer();
-      localStorage.setItem("lastPlayedTopic", topic);
-      updateScoreDisplay(topic);
-      showAnswerBtn.style.display = "none"; // Hide if previously shown
-    } else {
-      result.textContent = "❌ Incorrect. Hint: Use a proper heading tag like h1.";
-      result.style.color = "red";
-      wrongSound.play();
-      showAnswerBtn.style.display = "inline-block"; // 👈 Show the button
+      if (openTag === "h1" && closeTag === "h1") {
+        result.textContent = "✅ Correct! Great job!";
+        result.style.color = "green";
+        correctSound.play();
+        const username = getCurrentUsername();
+        updateUserScore(username, topic, 10);
+        // sendScoreToAdminServer();
+        localStorage.setItem("lastPlayedTopic", topic);
+        updateScoreDisplay(topic);
+        showAnswerBtn.style.display = "none";
+      } else {
+        result.textContent = "❌ Incorrect. Hint: Use a proper heading tag like h1.";
+        result.style.color = "red";
+        wrongSound.play();
+        showAnswerBtn.style.display = "inline-block";
+      }
     }
-  }
-
     document.addEventListener("DOMContentLoaded", () => {
       updateScoreDisplay(topic);
     });

@@ -67,34 +67,55 @@ function toggleMenu() {
 
 async function fetchLeaderboard() {
   const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhZeY_KV_35kPvDU_DOSRA_QAtygoQTCkV6GnhJJiEnCuDnbWLmeck4ZzuJJMTDgdxL352d1JgVAFr/pub?output=csv";
+
   try {
     const res = await fetch(url);
     const csv = await res.text();
-    const rows = csv.split("\n").slice(1); // skip header
-    const tableBody = document.getElementById("leaderboardBody");
-    tableBody.innerHTML = "";
+    const rows = csv.split("\n").slice(1); // Skip header
+
+    let players = [];
 
     rows.forEach(row => {
       const columns = row.split(",");
-      const name = columns[1];
-      const html = columns[2];
-      const css = columns[3];
-      const js = columns[4];
-      const python = columns[5];
+      const name = columns[1]?.trim();
+      const html = parseInt(columns[2]) || 0;
+      const css = parseInt(columns[3]) || 0;
+      const js = parseInt(columns[4]) || 0;
+      const python = parseInt(columns[5]) || 0;
+      const total = html + css + js + python;
 
+      if (name) {
+        players.push({ name, html, css, js, python, total });
+      }
+    });
+
+    // Sort by total descending
+    players.sort((a, b) => b.total - a.total);
+
+    const tableBody = document.getElementById("leaderboardBody");
+    tableBody.innerHTML = "";
+
+    players.forEach((player, index) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${name}</td>
-        <td>${html || 0}</td>
-        <td>${css || 0}</td>
-        <td>${js || 0}</td>
-        <td>${python || 0}</td>
+        <td>${index + 1}</td>
+        <td>${player.name}</td>
+        <td>${player.html}</td>
+        <td>${player.css}</td>
+        <td>${player.js}</td>
+        <td>${player.python}</td>
+        <td><b>${player.total}</b></td>
       `;
+      if (index === 0) tr.style.backgroundColor = "#ffd700"; // Gold
+      if (index === 1) tr.style.backgroundColor = "#c0c0c0"; // Silver
+      if (index === 2) tr.style.backgroundColor = "#cd7f32"; // Bronze
       tableBody.appendChild(tr);
     });
+
   } catch (err) {
     console.error("⚠️ Error loading leaderboard:", err);
-    document.getElementById("leaderboardBody").innerHTML = `<tr><td colspan="5">Failed to load leaderboard.</td></tr>`;
+    document.getElementById("leaderboardBody").innerHTML =
+      `<tr><td colspan="7">Failed to load leaderboard.</td></tr>`;
   }
 }
 
