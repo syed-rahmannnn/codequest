@@ -8,6 +8,7 @@ import {
   getDatabase,
   ref,
   set,
+  get
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
 const firebaseConfig = {
