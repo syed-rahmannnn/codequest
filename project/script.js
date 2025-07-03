@@ -71,7 +71,8 @@ function updateScoreDisplay(topic = "html") {
   const nameSpan = document.getElementById("userName");
   const scoreSpan = document.getElementById("scoreValue");
   if (nameSpan && scoreSpan) {
-    nameSpan.textContent = username;
+    const displayName = localStorage.getItem("displayName") || username;
+    nameSpan.textContent = displayName;
     scoreSpan.textContent = score;
   }
 }

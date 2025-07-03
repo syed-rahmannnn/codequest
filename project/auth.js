@@ -24,34 +24,62 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-// 🔐 LOGIN
+function validateEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
 function login() {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const pass = document.getElementById("password").value;
+
+  if (!validateEmail(email)) {
+    document.getElementById("authMessage").innerText = "❌ Please enter a valid email format.";
+    return;
+  }
+
   signInWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       const user = userCredential.user;
       localStorage.setItem("currentUser", user.email);
-      location.href = "index.html";
+
+      // Fetch username from Firebase and save to localStorage
+      const dbRef = ref(db, "users/" + user.uid);
+      get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          localStorage.setItem("displayName", snapshot.val().username || "Unknown");
+        }
+        location.href = "index.html";
+      });
     })
     .catch((err) => {
       document.getElementById("authMessage").innerText = err.message;
     });
 }
 
-// 📝 REGISTER + INITIALIZE SCORE
 function register() {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const pass = document.getElementById("password").value;
+  const username = document.getElementById("username").value.trim();
+
+  if (!validateEmail(email)) {
+    document.getElementById("authMessage").innerText = "❌ Please enter a valid email format.";
+    return;
+  }
+
+  if (username === "") {
+    document.getElementById("authMessage").innerText = "❌ Please enter a username.";
+    return;
+  }
 
   createUserWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       const user = userCredential.user;
       const userRef = ref(db, "users/" + user.uid);
 
-      // Save user email + initial scores (0)
       set(userRef, {
         email: user.email,
+        username: username,
         html: 0,
         css: 0,
         js: 0,
