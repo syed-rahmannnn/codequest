@@ -212,6 +212,7 @@ async function sendScoreToFirebase() {
   }
 }
 
+window.getCurrentUsername = getCurrentUsername;
 window.updateScoreDisplay = updateScoreDisplay;
 window.startGame = startGame;
 window.switchUser = switchUser;
