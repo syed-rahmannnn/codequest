@@ -127,7 +127,7 @@ async function fetchLeaderboard() {
     for (const uid in data) {
       const user = data[uid];
       players.push({
-        name: user.email,
+        name: user.username,
         html: user.html || 0,
         css: user.css || 0,
         js: user.js || 0,
