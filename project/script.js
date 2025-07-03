@@ -115,7 +115,7 @@ function hideLeaderboard() {
   document.getElementById("leaderboard").style.display = "none";
 }
 
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
 async function fetchLeaderboard() {
   const db = getDatabase();
