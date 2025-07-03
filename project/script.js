@@ -219,3 +219,7 @@ window.submitFinalScores = submitFinalScores;
 window.fetchLeaderboard = fetchLeaderboard;
 window.hideLeaderboard = hideLeaderboard;
 
+window.showCorrectCSSAnswer = showCorrectCSSAnswer;
+window.showCorrectHTML1Answer = showCorrectHTML1Answer;
+window.showCorrectJsAnswer = showCorrectJsAnswer;
+window.showCorrectPyAnswer = showCorrectPyAnswer;
