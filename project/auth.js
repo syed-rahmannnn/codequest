@@ -17,7 +17,7 @@ const firebaseConfig = {
   storageBucket: "codequestcapstone.firebasestorage.app",
   messagingSenderId: "381486714432",
   appId: "1:381486714432:web:f6fca4ad722ce782f259a5",
-  databaseURL: "https://codequestcapstone-default-rtdb.firebaseio.com/"
+  databaseURL: "https://codequestcapstone-default-rtdb.firebaseio.com"
 };
 
 const app = initializeApp(firebaseConfig);
