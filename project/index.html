@@ -8,15 +8,9 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
 <script>
-  let username = localStorage.getItem("currentUser");
-  if (!username) {
-    username = prompt("Enter your name:");
-    if (username) {
-      localStorage.setItem("currentUser", username.toLowerCase());
-    } else {
-      alert("Username is required to start the game.");
-      location.reload(); // retry
-    }
+  const user = localStorage.getItem("currentUser");
+  if (!user) {
+    window.location.href = "login.html"; // redirect to login
   }
 </script>
 

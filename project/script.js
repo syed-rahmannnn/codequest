@@ -113,49 +113,52 @@ function hideLeaderboard() {
   document.getElementById("leaderboard").style.display = "none";
 }
 
-import { get, ref, getDatabase } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
 async function fetchLeaderboard() {
   const db = getDatabase();
-  const dbRef = ref(db, 'users');
+  const snapshot = await get(ref(db, "users"));
+  const players = [];
 
-  try {
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      const players = Object.entries(snapshot.val()).map(([name, data]) => ({
-        name, ...data
-      }));
-
-      players.sort((a, b) => b.total - a.total);
-
-      const tableBody = document.getElementById("leaderboardBody");
-      tableBody.innerHTML = "";
-
-      players.forEach((player, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${player.name}</td>
-          <td>${player.html}</td>
-          <td>${player.css}</td>
-          <td>${player.js}</td>
-          <td>${player.python}</td>
-          <td><b>${player.total}</b></td>
-        `;
-        tableBody.appendChild(tr);
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    for (const uid in data) {
+      const user = data[uid];
+      players.push({
+        name: user.email,
+        html: user.html || 0,
+        css: user.css || 0,
+        js: user.js || 0,
+        python: user.python || 0,
+        total: user.total || 0
       });
-    } else {
-      console.log("No data available");
     }
-  } catch (error) {
-    console.error("Error fetching leaderboard:", error);
+
+    players.sort((a, b) => b.total - a.total);
+
+    const tableBody = document.getElementById("leaderboardBody");
+    tableBody.innerHTML = "";
+
+    players.forEach((player, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${player.name}</td>
+        <td>${player.html}</td>
+        <td>${player.css}</td>
+        <td>${player.js}</td>
+        <td>${player.python}</td>
+        <td><b>${player.total}</b></td>
+      `;
+      tableBody.appendChild(tr);
+    });
   }
 }
 
 
 function submitFinalScores() {
   if (confirm("Submit your final scores to the admin?")) {
-    sendScoreToAdminServer();
+    sendScoreToFirebase();
     alert("Scores submitted!");
 
     // Show the leaderboard
@@ -168,24 +171,46 @@ function submitFinalScores() {
 }
 
 
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
-const db = getDatabase();
+async function sendScoreToFirebase() {
+  const username = getCurrentUsername(); // e.g., user@example.com
+  const allScores = getScoresObject();
+  const scores = allScores[username] || {};
 
-function sendScoreToAdminServer() {
-  const username = getCurrentUsername();
-  const scores = getScoresObject()[username] || {};
+  // Fetch user's Firebase UID by matching email
+  const db = getDatabase();
+  const usersRef = ref(db, "users");
 
-  set(ref(db, 'users/' + username.replace('.', '_')), {
-    html: scores.html || 0,
-    css: scores.css || 0,
-    js: scores.js || 0,
-    python: scores.python || 0,
-    total: (scores.html || 0) + (scores.css || 0) + (scores.js || 0) + (scores.python || 0)
-  }).then(() => {
-    console.log("✅ Scores updated in Firebase");
-  }).catch((err) => {
-    console.error("❌ Firebase Error:", err);
-  });
+  try {
+    const snapshot = await get(usersRef);
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+      for (const [uid, userData] of Object.entries(users)) {
+        if (userData.email === username) {
+          const userRef = ref(db, "users/" + uid);
+          const total =
+            (scores.html || 0) +
+            (scores.css || 0) +
+            (scores.js || 0) +
+            (scores.python || 0);
+
+          await update(userRef, {
+            html: scores.html || 0,
+            css: scores.css || 0,
+            js: scores.js || 0,
+            python: scores.python || 0,
+            total,
+          });
+
+          console.log("✅ Score updated in Firebase");
+          return;
+        }
+      }
+    }
+  } catch (err) {
+    console.error("❌ Failed to update score:", err);
+  }
 }
+
 
