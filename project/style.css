@@ -1,3 +1,34 @@
+.auth-bg {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+.auth-container {
+  background-color: #0f172a;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,255,180,0.3);
+  text-align: center;
+}
+
+.auth-container input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+.auth-container button {
+  margin-top: 10px;
+  width: 100%;
+}
+
 body {
   font-family: 'Courier New', monospace;
   background-color: #0d1117;
