@@ -172,9 +172,6 @@ function submitFinalScores() {
   }
 }
 
-
-import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
-
 async function sendScoreToFirebase() {
   const username = getCurrentUsername(); // e.g., user@example.com
   const allScores = getScoresObject();
