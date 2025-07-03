@@ -1,3 +1,47 @@
+// auth.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "YOUR_MSG_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+function login() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+  signInWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      localStorage.setItem("currentUser", email);
+      location.href = "index.html";
+    })
+    .catch((err) => {
+      document.getElementById("authMessage").innerText = err.message;
+    });
+}
+
+function register() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      document.getElementById("authMessage").innerText = "Registered! Please login.";
+    })
+    .catch((err) => {
+      document.getElementById("authMessage").innerText = err.message;
+    });
+}
+
+window.login = login;
+window.register = register;
+
 function getCurrentUsername() {
   return localStorage.getItem("currentUser") || "guest";
 }
@@ -31,7 +75,7 @@ function updateScoreDisplay(topic = "html") {
   }
 }
 
-function showCorrectHTMLAnswer() {
+function showCorrectHTML1Answer() {
   document.getElementById("answer").value = "h1";
   document.getElementById("answerClose").value = "h1";
 }
@@ -69,78 +113,45 @@ function hideLeaderboard() {
   document.getElementById("leaderboard").style.display = "none";
 }
 
+import { get, ref, getDatabase } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
 async function fetchLeaderboard() {
-  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhZeY_KV_35kPvDU_DOSRA_QAtygoQTCkV6GnhJJiEnCuDnbWLmeck4ZzuJJMTDgdxL352d1JgVAFr/pub?output=csv";
+  const db = getDatabase();
+  const dbRef = ref(db, 'users');
 
   try {
-    const res = await fetch(url);
-    const csv = await res.text();
-    const rows = csv.split("\n").slice(1); // Skip header
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const players = Object.entries(snapshot.val()).map(([name, data]) => ({
+        name, ...data
+      }));
 
-    let players = [];
+      players.sort((a, b) => b.total - a.total);
 
-    rows.forEach(row => {
-      const columns = row.split(",");
-      const name = columns[1]?.trim();
-      const html = parseInt(columns[2]) || 0;
-      const css = parseInt(columns[3]) || 0;
-      const js = parseInt(columns[4]) || 0;
-      const python = parseInt(columns[5]) || 0;
-      const total = html + css + js + python;
+      const tableBody = document.getElementById("leaderboardBody");
+      tableBody.innerHTML = "";
 
-      if (name) {
-        players.push({ name, html, css, js, python, total });
-      }
-    });
-
-    // Sort by total descending
-    players.sort((a, b) => b.total - a.total);
-
-    const tableBody = document.getElementById("leaderboardBody");
-    tableBody.innerHTML = "";
-
-    players.forEach((player, index) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${player.name}</td>
-        <td>${player.html}</td>
-        <td>${player.css}</td>
-        <td>${player.js}</td>
-        <td>${player.python}</td>
-        <td><b>${player.total}</b></td>
-      `;
-
-      // Clear any default styling from CSS
-      tr.style.backgroundColor = "";
-      tr.style.color = "";
-      tr.style.fontWeight = "";
-
-      if (index === 0) {
-        tr.style.backgroundColor = "#ffd700"; // Gold
-        tr.style.color = "#000";
-        tr.style.fontWeight = "bold";
-      } else if (index === 1) {
-        tr.style.backgroundColor = "#c0c0c0"; // Silver
-        tr.style.color = "#000";
-        tr.style.fontWeight = "bold";
-      } else if (index === 2) {
-        tr.style.backgroundColor = "#cd7f32"; // Bronze
-        tr.style.color = "#000";
-        tr.style.fontWeight = "bold";
-      }
-
-      tableBody.appendChild(tr);
-    });
-
-
-  } catch (err) {
-    console.error("⚠️ Error loading leaderboard:", err);
-    document.getElementById("leaderboardBody").innerHTML =
-      `<tr><td colspan="7">Failed to load leaderboard.</td></tr>`;
+      players.forEach((player, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${player.name}</td>
+          <td>${player.html}</td>
+          <td>${player.css}</td>
+          <td>${player.js}</td>
+          <td>${player.python}</td>
+          <td><b>${player.total}</b></td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    } else {
+      console.log("No data available");
+    }
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
   }
 }
+
 
 function submitFinalScores() {
   if (confirm("Submit your final scores to the admin?")) {
@@ -157,28 +168,24 @@ function submitFinalScores() {
 }
 
 
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+const db = getDatabase();
+
 function sendScoreToAdminServer() {
   const username = getCurrentUsername();
-  const allScores = getScoresObject();
-  const scores = allScores[username] || {};
+  const scores = getScoresObject()[username] || {};
 
-  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe3WD2zhCq6HdDJhVrBFWRYXYnxXX3RA_9zyHZg_nFKG_ayDQ/formResponse";
-
-  const formData = new FormData();
-  formData.append("entry.218425263", username);           // Name field
-  formData.append("entry.216952711", scores.html || 0);   // HTML Score
-  formData.append("entry.143075905", scores.css || 0);    // CSS Score
-  formData.append("entry.1181459127", scores.js || 0);     // JS Score
-  formData.append("entry.490537559", scores.python || 0); // Python Score
-
-  fetch(formUrl, {
-    method: "POST",
-    mode: "no-cors", // ✅ This is key for CORS-free POST
-    body: formData
+  set(ref(db, 'users/' + username.replace('.', '_')), {
+    html: scores.html || 0,
+    css: scores.css || 0,
+    js: scores.js || 0,
+    python: scores.python || 0,
+    total: (scores.html || 0) + (scores.css || 0) + (scores.js || 0) + (scores.python || 0)
   }).then(() => {
-    console.log("✅ Score sent to admin form");
+    console.log("✅ Scores updated in Firebase");
   }).catch((err) => {
-    console.error("❌ Error sending score:", err);
+    console.error("❌ Firebase Error:", err);
   });
 }
 
