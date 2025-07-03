@@ -215,4 +215,10 @@ async function sendScoreToFirebase() {
   }
 }
 
+window.updateScoreDisplay = updateScoreDisplay;
+window.startGame = startGame;
+window.switchUser = switchUser;
+window.submitFinalScores = submitFinalScores;
+window.fetchLeaderboard = fetchLeaderboard;
+window.hideLeaderboard = hideLeaderboard;
 
