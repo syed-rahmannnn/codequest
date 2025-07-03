@@ -212,15 +212,21 @@ async function sendScoreToFirebase() {
   }
 }
 
+// Game Logic
 window.getCurrentUsername = getCurrentUsername;
+window.getUserScore = getUserScore;
+window.updateUserScore = updateUserScore;
 window.updateScoreDisplay = updateScoreDisplay;
+
+// Answer Helpers
+window.showCorrectHTML1Answer = showCorrectHTML1Answer;
+window.showCorrectCSSAnswer = showCorrectCSSAnswer;
+window.showCorrectJsAnswer = showCorrectJsAnswer;
+window.showCorrectPyAnswer = showCorrectPyAnswer;
+
+// Navigation & Leaderboard
 window.startGame = startGame;
 window.switchUser = switchUser;
 window.submitFinalScores = submitFinalScores;
 window.fetchLeaderboard = fetchLeaderboard;
 window.hideLeaderboard = hideLeaderboard;
-
-window.showCorrectCSSAnswer = showCorrectCSSAnswer;
-window.showCorrectHTML1Answer = showCorrectHTML1Answer;
-window.showCorrectJsAnswer = showCorrectJsAnswer;
-window.showCorrectPyAnswer = showCorrectPyAnswer;
