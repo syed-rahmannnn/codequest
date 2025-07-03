@@ -42,10 +42,13 @@
         correctSound.play();
         const username = getCurrentUsername();
         updateUserScore(username, topic, 10);
-        // sendScoreToAdminServer();
         localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
+        localStorage.setItem("level1Completed", "true");
         showAnswerBtn.style.display = "none";
+        setTimeout(() => {
+          window.location.href = "jslevel-2.html"; // Redirect to Level 2 after 2 seconds
+        }, 2000);
       } else {
         result.textContent = "❌ Incorrect. Hint: Use i <= 10 as the condition.";
         result.style.color = "red";
