@@ -3,12 +3,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebas
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_MSG_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD9R6JuDBJLxy9JjY89dZ8P_Fz7A-3mTRk",
+  authDomain: "codequestcapstone.firebaseapp.com",
+  projectId: "codequestcapstone",
+  storageBucket: "codequestcapstone.firebasestorage.app",
+  messagingSenderId: "381486714432",
+  appId: "1:381486714432:web:f6fca4ad722ce782f259a5",
+  databaseURL: "https://codequestcapstone-default-rtdb.firebaseio.com"
 };
 
 const app = initializeApp(firebaseConfig);
