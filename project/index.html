@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>CodeQuest - Start</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
 <script>
   let username = localStorage.getItem("currentUser");
@@ -20,6 +21,7 @@
 </script>
 
 <body>
+  <div class="floating-bg"></div>
   <nav class="navbar">
     <div class="nav-container">
       <span class="logo">CodeQuest</span>
@@ -35,7 +37,7 @@
 
   <div class="start-screen">
     <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-    <h1 class="typewriter">Welcome to CodeQuest</h1>
+    <h1 class="typewriter" data-aos="zoom-in">Welcome to CodeQuest</h1>
     <button id="startGame" onclick="startGame()">Start Adventure</button>
     <button id="switchUser" onclick="switchUser()">🔄 Switch User</button>
     <button id="submitFinalScores" onclick="submitFinalScores()">Submit Scores</button>
@@ -127,5 +129,7 @@
       });
     });
   </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
 </body>
 </html>
