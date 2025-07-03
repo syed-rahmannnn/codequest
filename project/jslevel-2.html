@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeQuest: Level 2</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a href="index.html" class="back-arrow" title="Go to Home">
+    <span>⟵</span>
+  </a>
+  <div class="game-container">
+    <h1>🧠 CodeQuest: Level 2</h1>
+    <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
+    <p class="instruction">Drag and drop the code blocks to form a correct statement:</p>
+
+    <div class="drop-zone" id="dropZone">
+      <!-- Dropped items go here -->
+    </div>
+
+    <div class="code-pieces">
+      <div class="piece" draggable="true">console.log("Positive");</div>
+      <div class="piece" draggable="true">if (num &gt; 0) {</div>
+      <div class="piece" draggable="true">}</div>
+    </div>
+
+    <button onclick="checkOrder()">Submit</button>
+    <button id="showAnswerBtn" onclick="showCorrectHTMLAnswer()" style="display: none; margin-top: 10px;">
+      Show Answer
+    </button>
+    <p id="feedback"></p>
+    <audio id="correctSound" src="correct.mp3"></audio>
+    <audio id="wrongSound" src="wrong.mp3"></audio>
+  </div>
+  <script src="script.js"></script>
+    <script>
+        const topic = "js"; // Needed for score tracking
+
+        document.addEventListener("DOMContentLoaded", () => {
+            alert("🎉 Welcome to Level 2!");
+            updateScoreDisplay(topic);
+            setupDragAndDrop();
+        });
+
+        function setupDragAndDrop() {
+            const pieces = document.querySelectorAll('.piece');
+            const dropZone = document.getElementById('dropZone');
+
+            pieces.forEach(piece => {
+            piece.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', e.target.textContent);
+            });
+            });
+
+            dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            });
+
+            dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            const data = e.dataTransfer.getData('text/plain');
+
+            const newPiece = document.createElement('div');
+            newPiece.className = 'piece';
+            newPiece.textContent = data;
+            newPiece.setAttribute('draggable', 'true');
+
+            newPiece.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', e.target.textContent);
+                e.target.remove();
+            });
+
+            newPiece.addEventListener('click', () => {
+                newPiece.remove();
+            });
+
+            dropZone.appendChild(newPiece);
+            });
+        }
+
+        function checkOrder() {
+            const blocks = Array.from(document.querySelectorAll('#dropZone .piece')).map(el => el.textContent.trim());
+            const feedback = document.getElementById('feedback');
+            const correctSound = document.getElementById('correctSound');
+            const wrongSound = document.getElementById('wrongSound');
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
+
+            const correctSequence = [
+            'if (num > 0) {',
+            'console.log("Positive");',
+            '}'
+            ];
+
+            if (JSON.stringify(blocks) === JSON.stringify(correctSequence)) {
+            feedback.textContent = "✅ Correct! Well done!";
+            feedback.style.color = "green";
+            correctSound.play();
+            const username = getCurrentUsername();
+            updateUserScore(username, topic, 10); // ✅ Update score
+            localStorage.setItem("lastPlayedTopic", topic);
+            localStorage.setItem("level2Completed", "true");
+            updateScoreDisplay(topic);
+            showAnswerBtn.style.display = "none";
+
+            // Optional redirect to next level
+            setTimeout(() => {
+                window.location.href = "jslevel-3.html";
+            }, 2000);
+            } else {
+            feedback.textContent = "❌ Incorrect order. Try again!";
+            feedback.style.color = "red";
+            wrongSound.play();
+            showAnswerBtn.style.display = "inline-block";
+            }
+        }
+
+        function showCorrectHTMLAnswer() {
+            const dropZone = document.getElementById("dropZone");
+            dropZone.innerHTML = ""; // Clear current contents
+
+            const correctSequence = [
+            'if (num > 0) {',
+            'console.log("Positive");',
+            '}'
+            ];
+
+            correctSequence.forEach(code => {
+            const piece = document.createElement('div');
+            piece.className = 'piece';
+            piece.textContent = code;
+            piece.setAttribute('draggable', 'true');
+
+            piece.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', e.target.textContent);
+                e.target.remove(); 
+            });
+
+            piece.addEventListener('click', () => {
+                piece.remove();
+            });
+
+            dropZone.appendChild(piece);
+            });
+        }
+    </script>
+</body>
+</html>
