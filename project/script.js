@@ -127,19 +127,20 @@ async function fetchLeaderboard() {
     for (const uid in data) {
       const user = data[uid];
       players.push({
-        name: user.username,
-        html: user.html || 0,
-        css: user.css || 0,
-        js: user.js || 0,
-        python: user.python || 0,
-        total: user.total || 0
+        name: user.username || "Unknown",
+        html: Number(user.html) || 0,
+        css: Number(user.css) || 0,
+        js: Number(user.js) || 0,
+        python: Number(user.python) || 0,
+        total: Number(user.total) || 0
       });
     }
 
+    // Sort by total score descending
     players.sort((a, b) => b.total - a.total);
 
     const tableBody = document.getElementById("leaderboardBody");
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = ""; // clear previous
 
     players.forEach((player, index) => {
       const tr = document.createElement("tr");
@@ -154,21 +155,21 @@ async function fetchLeaderboard() {
       `;
       tableBody.appendChild(tr);
     });
+  } else {
+    document.getElementById("leaderboardBody").innerHTML = "<tr><td colspan='7'>No data found.</td></tr>";
   }
 }
 
-
 function submitFinalScores() {
   if (confirm("Submit your final scores to the admin?")) {
-    sendScoreToFirebase();
-    alert("Scores submitted!");
+    sendScoreToFirebase().then(() => {
+      alert("Scores submitted!");
 
-    // Show the leaderboard
-    const leaderboard = document.getElementById("leaderboard");
-    leaderboard.style.display = "block";
+      const leaderboard = document.getElementById("leaderboard");
+      leaderboard.style.display = "block";
 
-    // Load latest leaderboard data
-    fetchLeaderboard();
+      fetchLeaderboard(); // Load latest data
+    });
   }
 }
 
