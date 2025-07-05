@@ -5,6 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CodeQuest: Level 1</title>
   <link rel="stylesheet" href="style.css" />
+    <style>
+    h1 {
+      background: linear-gradient(90deg, #38bdf8, #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInScale 1s ease;
+    }
+
+    .game-container {
+      animation: fadeInSlide 1s ease;
+    }
+
+    #result {
+      transition: all 0.3s ease;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    input:focus {
+      border: 2px solid #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+      background-color: #222c38;
+    }
+
+    pre {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .score {
+      font-size: 1.1rem;
+      color: #60a5fa;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 
 <body>
