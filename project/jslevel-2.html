@@ -102,6 +102,8 @@
             localStorage.setItem("level2Completed", "true");
             updateScoreDisplay(topic);
             showAnswerBtn.style.display = "none";
+            sendScoreToFirebase(); // Add before redirect
+
 
             // Optional redirect to next level
             setTimeout(() => {
@@ -113,6 +115,7 @@
             wrongSound.play();
             showAnswerBtn.style.display = "inline-block";
             }
+            sendScoreToFirebase(); // Add before redirect
         }
 
         function showCorrectHTMLAnswer() {

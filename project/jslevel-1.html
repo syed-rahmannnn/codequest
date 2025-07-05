@@ -46,6 +46,7 @@
         updateScoreDisplay(topic);
         localStorage.setItem("level1Completed", "true");
         showAnswerBtn.style.display = "none";
+        sendScoreToFirebase(); // Add before redirect
         setTimeout(() => {
           window.location.href = "jslevel-2.html"; // Redirect to Level 2 after 2 seconds
         }, 2000);
@@ -55,6 +56,7 @@
         wrongSound.play();
         showAnswerBtn.style.display = "inline-block";
       }
+      sendScoreToFirebase(); // Add before redirect
     }
 
     document.addEventListener("DOMContentLoaded", () => {

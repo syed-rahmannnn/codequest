@@ -88,12 +88,14 @@
         localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
         showAnswerBtn.style.display = "none";
+        sendScoreToFirebase(); // Add before redirect
       } else {
         result.textContent = "❌ Incorrect. Hint: Use 'x**2' and 'range(10)'.";
         result.style.color = "red";
         wrongSound.play();
         showAnswerBtn.style.display = "inline-block";
       }
+      sendScoreToFirebase(); // Add before redirect
     }
 
     document.addEventListener("DOMContentLoaded", () => {

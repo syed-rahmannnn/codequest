@@ -85,6 +85,7 @@
         localStorage.setItem("lastPlayedTopic", topic);
         updateScoreDisplay(topic);
         showAnswerBtn.style.display = "none";
+        sendScoreToFirebase();
       } else {
         result.textContent = "❌ Incorrect. Hint: Use the property that sets text color.";
         result.style.color = "red";
@@ -95,6 +96,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       updateScoreDisplay(topic);
+      sendScoreToFirebase();
     });
   </script>
 </body>
