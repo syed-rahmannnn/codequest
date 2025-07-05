@@ -5,70 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CodeQuest: Level 1</title>
   <link rel="stylesheet" href="style.css" />
-    <style>
-    h1 {
-      background: linear-gradient(90deg, #38bdf8, #4ade80);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fadeInScale 1s ease;
-    }
-
-    .game-container {
-      animation: fadeInSlide 1s ease;
-    }
-
-    #result {
-      transition: all 0.3s ease;
-    }
-
-    @keyframes fadeInScale {
-      0% { opacity: 0; transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes fadeInSlide {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    input:focus {
-      border: 2px solid #4ade80;
-      box-shadow: 0 0 8px #4ade80;
-      background-color: #222c38;
-    }
-
-    pre {
-      color: #cbd5e1;
-      font-size: 1rem;
-    }
-
-    .score {
-      font-size: 1.1rem;
-      color: #60a5fa;
-      margin-bottom: 10px;
-    }
-  </style>
 </head>
 
 <body>
-  <a href="index.html" class="back-arrow" title="Go to Home">
-    <span>⟵</span>
-  </a>
-  <div class="game-container">
-    <h1>🧠 CodeQuest: Level 1</h1>
-    <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-    <p><b>Q. Create a heading "Internet Programming" using a heading tag.</b></p>
-    <pre>
-      &lt;<input id="answer" maxlength="2" style="width: 30px;" />&gt;Internet Programming&lt;/<input id="answerClose" maxlength="2" style="width: 30px;" />&gt;
-    </pre>
-    <button onclick="checkHtml1Answer()">Check Answer</button>
-    <button id="showAnswerBtn" onclick="showCorrectHTML1Answer()" style="display: none; margin-top: 10px;">
-      Show Answer
-    </button>
-    <p id="result"></p>
-    <audio id="correctSound" src="correct.mp3"></audio>
-    <audio id="wrongSound" src="wrong.mp3"></audio>
+  <a href="index.html" class="back-arrow" title="Go to Home">⟵</a>
+  <div class="game-terminal">
+    <div class="terminal-bar">
+      <div class="window-dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <!-- <span class="file-name">HTMLLEVEL-1.HTML</span> -->
+    </div>
+    <div class="terminal-content">
+      <h1>🧠 CodeQuest: Level 1</h1>
+      <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
+      <p class="question">Q. Create a heading "Internet Programming" using a heading tag.</p>
+      <p class="code-line">
+        &lt;<input id="answer" maxlength="2" />&gt;
+        <strong>“Internet Programming”</strong>
+        &lt;/<input id="answerClose" maxlength="2" />&gt;
+      </p>
+      <button onclick="checkHtml1Answer()">CHECK</button>
+      <button id="showAnswerBtn" onclick="showCorrectHTML1Answer()" style="display: none; margin-top: 10px;">Show Answer</button>
+      <p id="result"></p>
+    </div>
   </div>
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+
   <script type="module" src="script.js"></script>
   <script>
     const topic = "html";

@@ -50,18 +50,27 @@
   <a href="index.html" class="back-arrow" title="Go to Home">
     <span>⟵</span>
   </a>
-  <div class="game-container">
-    <h1>🧠 CodeQuest: Level 1</h1>
-    <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
-    <p><b>Q. Create a list of squares from 0 to 9 using list comprehension.</b></p>
-    <div class="code-line">
-      squares = [ <input id="expr" placeholder="expression" /> for <input id="var" placeholder="var" /> in <input id="range" placeholder="range()" /> ]
+  <div class="game-terminal">
+    <div class="terminal-bar">
+      <div class="window-dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <span class="file-name">PYTHONLEVEL-1.HTML</span>
     </div>
-    <button onclick="checkPython()">Check Answer</button>
-    <button id="showAnswerBtn" onclick="showCorrectPyAnswer()" style="display: none; margin-top: 10px;">
-      Show Answer
-    </button>
-    <p id="result"></p>
+    <div class="terminal-content">
+      <h1><span class="emoji">🐍</span> CodeQuest: <span class="level">Python Level 1</span></h1>
+      <p class="score">🏆 <span id="userName">User</span>'s Score: <span id="scoreValue">0</span></p>
+      <p class="question"><b>Q. Create a list of squares from 0 to 9 using list comprehension.</b></p>
+      <p class="code-line">
+        squares = [ <input id="expr" placeholder="expression" /> for <input id="var" placeholder="var" /> in <input id="range" placeholder="range()" /> ]
+      </p>
+      <button onclick="checkPython()">Chech Answer</button>
+      <button id="showAnswerBtn" onclick="showCorrectPyAnswer()" style="display: none;">Show Answer</button>
+      <p id="result"></p>
+    </div>
+  </div>
     <audio id="correctSound" src="correct.mp3"></audio>
     <audio id="wrongSound" src="wrong.mp3"></audio>
   </div>
